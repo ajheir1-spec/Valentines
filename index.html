@@ -12,24 +12,16 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #ffe6e6; /* Soft pink background */
+            background-color: #ffe6e6;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             text-align: center;
-        }
-        .container {
-            padding: 20px;
-            z-index: 2;
         }
         img {
             width: 250px;
             border-radius: 20px;
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            /* This ensures the code can always find the image location */
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
         }
         h1 { color: #A50044; margin-bottom: 30px; }
         .btn-container {
@@ -57,8 +49,9 @@
         #no-btn {
             background-color: #A50044; /* Barça Red */
             color: white;
-            position: fixed; /* Locks it to the visible screen */
+            position: fixed; 
             z-index: 999;
+            left: 55%; /* Starting position */
         }
     </style>
 </head>
@@ -66,9 +59,7 @@
 
     <div class="container">
         <img src="C1511496-5083-4C84-B60A-6894D92BD462_1_105_c.jpeg" alt="Us" id="couple-img">
-        
         <h1 id="question">Will you be my Valentine? ❤️</h1>
-        
         <div class="btn-container">
             <button id="yes-btn" onclick="celebrate()">YES</button>
             <button id="no-btn">NO</button>
@@ -80,41 +71,33 @@
     <script>
         const noBtn = document.getElementById('no-btn');
         const question = document.getElementById('question');
-        const coupleImg = document.getElementById('couple-img');
 
-        const moveButton = () => {
-            // Find exactly where the image is on her screen
-            const imgRect = coupleImg.getBoundingClientRect();
-            const imgCenterX = imgRect.left + imgRect.width / 2;
-            const imgCenterY = imgRect.top + imgRect.height / 2;
+        function moveButton() {
+            // Dodge within a safe visible area
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 150);
+            
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
 
-            // 180 pixels is roughly 2 inches on most mobile screens
-            const radius = 180; 
-
-            // Calculate a random point within that circle
-            const angle = Math.random() * Math.PI * 2;
-            const distance = Math.random() * radius;
-
-            const x = imgCenterX + distance * Math.cos(angle) - (noBtn.offsetWidth / 2);
-            const y = imgCenterY + distance * Math.sin(angle) - (noBtn.offsetHeight / 2);
-
-            // Apply position and ensure it stays within visible window
-            noBtn.style.left = `${Math.max(10, Math.min(x, window.innerWidth - 100))}px`;
-            noBtn.style.top = `${Math.max(10, Math.min(y, window.innerHeight - 100))}px`;
-        };
-
-        // Dodge triggers
+        // Add the listeners correctly
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents clicking the 'No' button on touch
+        noBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
             moveButton();
         });
 
         function celebrate() {
             question.innerHTML = "Yay! See you on the 14th! 🥰";
-            // Custom Barça colored confetti
             confetti({
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#A50044
+                colors: ['#A50044', '#004D98', '#EDBB00']
+            });
+            noBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
