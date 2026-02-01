@@ -12,7 +12,7 @@
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #ffe6e6;
+            background-color: #ffe6e6; /* Soft pink background */
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             text-align: center;
@@ -25,9 +25,13 @@
             width: 250px;
             border-radius: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            /* This ensures the code can always find the image location */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
-        h1 { color: #d63384; margin-bottom: 30px; }
+        h1 { color: #A50044; margin-bottom: 30px; }
         .btn-container {
             position: relative;
             width: 100%;
@@ -43,25 +47,25 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.1s;
         }
         #yes-btn {
-            background-color: #ff4d6d;
+            background-color: #004D98; /* Barça Blue */
             color: white;
             margin-right: 120px;
+            z-index: 10;
         }
         #no-btn {
-            background-color: #A50044;
+            background-color: #A50044; /* Barça Red */
             color: white;
-            position: absolute;
-            z-index: 999; /* Keeps it on top */
+            position: fixed; /* Locks it to the visible screen */
+            z-index: 999;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <img src="C1511496-5083-4C84-B60A-6894D92BD462_1_105_c.jpeg" alt="Us">
+        <img src="C1511496-5083-4C84-B60A-6894D92BD462_1_105_c.jpeg" alt="Us" id="couple-img">
         
         <h1 id="question">Will you be my Valentine? ❤️</h1>
         
@@ -72,48 +76,45 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-   <script>
-    const noBtn = document.getElementById('no-btn');
-    const question = document.getElementById('question');
-    const coupleImg = document.querySelector('img'); // This targets your photo
+    
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        const question = document.getElementById('question');
+        const coupleImg = document.getElementById('couple-img');
 
-    const moveButton = () => {
-        // Get the location of your photo on the screen
-        const imgRect = coupleImg.getBoundingClientRect();
-        const imgCenterX = imgRect.left + imgRect.width / 2;
-        const imgCenterY = imgRect.top + imgRect.height / 2;
+        const moveButton = () => {
+            // Find exactly where the image is on her screen
+            const imgRect = coupleImg.getBoundingClientRect();
+            const imgCenterX = imgRect.left + imgRect.width / 2;
+            const imgCenterY = imgRect.top + imgRect.height / 2;
 
-        // Set the "Dodge Radius" (2 inches is roughly 150-200 pixels)
-        const radius = 180; 
+            // 180 pixels is roughly 2 inches on most mobile screens
+            const radius = 180; 
 
-        // Calculate a random position within that radius
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * radius;
+            // Calculate a random point within that circle
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * radius;
 
-        const x = imgCenterX + distance * Math.cos(angle) - (noBtn.offsetWidth / 2);
-        const y = imgCenterY + distance * Math.sin(angle) - (noBtn.offsetHeight / 2);
+            const x = imgCenterX + distance * Math.cos(angle) - (noBtn.offsetWidth / 2);
+            const y = imgCenterY + distance * Math.sin(angle) - (noBtn.offsetHeight / 2);
 
-        // Apply the position
-        noBtn.style.position = 'fixed';
-        noBtn.style.left = `${x}px`;
-        noBtn.style.top = `${y}px`;
-    };
+            // Apply position and ensure it stays within visible window
+            noBtn.style.left = `${Math.max(10, Math.min(x, window.innerWidth - 100))}px`;
+            noBtn.style.top = `${Math.max(10, Math.min(y, window.innerHeight - 100))}px`;
+        };
 
-    noBtn.addEventListener('mouseover', moveButton);
-    noBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        moveButton();
-    });
-
-    function celebrate() {
-        question.innerHTML = "Yay! See you on the 14th! 🥰";
-        confetti({
-            particleCount: 150,
-            spread: 70,
-            origin: { y: 0.6 }
+        // Dodge triggers
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents clicking the 'No' button on touch
+            moveButton();
         });
-        noBtn.style.display = 'none';
-    }
-</script>
-</body>
-</html>
+
+        function celebrate() {
+            question.innerHTML = "Yay! See you on the 14th! 🥰";
+            // Custom Barça colored confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#A50044
