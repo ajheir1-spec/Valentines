@@ -12,29 +12,46 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffe6e6; /* Soft pink */
+            background-color: #ffe6e6;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
-        h1 { color: #d63384; text-align: center; }
-        .buttons { position: relative; width: 100%; height: 300px; display: flex; justify-content: center; align-items: center; }
+        h1 { color: #A50044; text-align: center; margin-bottom: 30px; }
+        .buttons-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         button {
-            padding: 15px 30px;
+            padding: 15px 35px;
             font-size: 1.2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            font-weight: bold;
         }
-        #yes-btn { background-color: #ff4d6d; color: white; margin-right: 20px; z-index: 10; }
-        #no-btn { background-color: #adb5bd; color: white; position: absolute; }
+        #yes-btn {
+            background-color: #004D98; /* Barça Blue */
+            color: white;
+            z-index: 10;
+        }
+        #no-btn {
+            background-color: #A50044; /* Barça Red */
+            color: white;
+            position: absolute;
+            transition: all 0.1s ease;
+            z-index: 5;
+        }
     </style>
 </head>
 <body>
 
     <h1 id="question">Will you be my Valentine? ❤️</h1>
     
-    <div class="buttons">
+    <div class="buttons-container">
         <button id="yes-btn" onclick="celebrate()">YES</button>
         <button id="no-btn">NO</button>
     </div>
@@ -43,20 +60,22 @@
     <script>
         const noBtn = document.getElementById('no-btn');
         const question = document.getElementById('question');
+        const yesBtn = document.getElementById('yes-btn');
 
         const moveButton = () => {
-            // Calculate random position within the screen
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            // This ensures the button stays within the viewable screen area
+            const padding = 50;
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
             
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         };
 
-        // Makes it dodge on hover (PC) and touch (Mobile)
+        // Makes it dodge
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevents clicking
+            e.preventDefault(); 
             moveButton();
         });
 
@@ -66,9 +85,9 @@
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#ff4d6d', '#ff8fa3', '#ffffff']
+                colors: ['#A50044', '#004D98', '#EDBB00'] // Barça Colors!
             });
-            noBtn.style.display = 'none'; // Hide the "No" button after she says yes
+            noBtn.style.display = 'none';
         }
     </script>
 </body>
