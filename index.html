@@ -10,14 +10,28 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #ffe6e6;
             font-family: 'Arial', sans-serif;
             overflow: hidden;
+            text-align: center;
         }
-        h1 { color: #d63384; text-align: center; }
-        .btn-wrap { position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; }
+        img {
+            width: 250px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { color: #d63384; margin-top: 0; }
+        .btn-container {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         button {
             padding: 15px 30px;
             font-size: 1.2rem;
@@ -25,22 +39,27 @@
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
+            transition: transform 0.1s;
         }
-        #yes-btn { background-color: #ff4d6d; color: white; margin-right: 20px; z-index: 10; }
-        #no-btn { 
-            background-color: #A50044; /* Barça Red */
-            color: white; 
-            position: absolute; /* This allows it to jump! */
-            transition: 0.1s;
-            z-index: 5;
+        #yes-btn {
+            background-color: #ff4d6d;
+            color: white;
+            margin-right: 120px; /* Space for the No button */
+        }
+        #no-btn {
+            background-color: #A50044;
+            color: white;
+            position: absolute;
         }
     </style>
 </head>
 <body>
-<img src="C1511496-5083-4C84-B60A-6894D92BD462_1_105_c.jpeg" alt="Us" style="width: 250px; border-radius: 20px; margin-bottom: 20px;">
+
+    <img src="Screenshot 2026-02-01 at 19.04.16.png" alt="Us">
+    
     <h1 id="question">Will you be my Valentine? ❤️</h1>
     
-    <div class="btn-wrap">
+    <div class="btn-container">
         <button id="yes-btn" onclick="celebrate()">YES</button>
         <button id="no-btn">NO</button>
     </div>
@@ -51,19 +70,23 @@
         const question = document.getElementById('question');
 
         const moveButton = () => {
-            // This logic calculates a random spot on the screen
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            // Calculates a random spot that is definitely on the screen
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40);
             
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         };
 
+        // Trigger the dodge
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
         function celebrate() {
-            question.innerHTML = "Yay! I Love You Albi!";
+            question.innerHTML = "Yay! See you on the 14th! 🥰";
             confetti({
                 particleCount: 150,
                 spread: 70,
