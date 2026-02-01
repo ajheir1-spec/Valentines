@@ -16,33 +16,22 @@
             font-family: 'Arial', sans-serif;
             overflow: hidden;
         }
-        h1 { color: #A50044; text-align: center; margin-bottom: 30px; }
-        .buttons-container {
-            position: relative;
-            width: 100%;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        h1 { color: #d63384; text-align: center; }
+        .btn-wrap { position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; }
         button {
-            padding: 15px 35px;
+            padding: 15px 30px;
             font-size: 1.2rem;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
         }
-        #yes-btn {
-            background-color: #004D98; /* Barça Blue */
-            color: white;
-            z-index: 10;
-        }
-        #no-btn {
+        #yes-btn { background-color: #ff4d6d; color: white; margin-right: 20px; z-index: 10; }
+        #no-btn { 
             background-color: #A50044; /* Barça Red */
-            color: white;
-            position: absolute;
-            transition: all 0.1s ease;
+            color: white; 
+            position: absolute; /* This allows it to jump! */
+            transition: 0.1s;
             z-index: 5;
         }
     </style>
@@ -51,7 +40,7 @@
 
     <h1 id="question">Will you be my Valentine? ❤️</h1>
     
-    <div class="buttons-container">
+    <div class="btn-wrap">
         <button id="yes-btn" onclick="celebrate()">YES</button>
         <button id="no-btn">NO</button>
     </div>
@@ -60,32 +49,25 @@
     <script>
         const noBtn = document.getElementById('no-btn');
         const question = document.getElementById('question');
-        const yesBtn = document.getElementById('yes-btn');
 
         const moveButton = () => {
-            // This ensures the button stays within the viewable screen area
-            const padding = 50;
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+            // This logic calculates a random spot on the screen
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         };
 
-        // Makes it dodge
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); 
-            moveButton();
-        });
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 
         function celebrate() {
             question.innerHTML = "Yay! See you on the 14th! 🥰";
             confetti({
                 particleCount: 150,
                 spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#A50044', '#004D98', '#EDBB00'] // Barça Colors!
+                origin: { y: 0.6 }
             });
             noBtn.style.display = 'none';
         }
