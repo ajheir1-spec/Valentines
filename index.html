@@ -67,4 +67,45 @@
         
         <div class="btn-container">
             <button id="yes-btn" onclick="celebrate()">YES</button>
-            <button id="
+            <button id="no-btn">NO</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        const question = document.getElementById('question');
+
+        const moveButton = () => {
+            // This ensures the button jumps anywhere on the screen
+            const maxWidth = window.innerWidth - noBtn.offsetWidth - 50;
+            const maxHeight = window.innerHeight - noBtn.offsetHeight - 50;
+
+            const x = Math.floor(Math.random() * maxWidth);
+            const y = Math.floor(Math.random() * maxHeight);
+
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        };
+
+        // Dodge on mouse hover
+        noBtn.addEventListener('mouseover', moveButton);
+        
+        // Dodge on touch (Mobile)
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        function celebrate() {
+            question.innerHTML = "Yay! See you on the 14th! 🥰";
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            noBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
